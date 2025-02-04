@@ -1,83 +1,129 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'screens/home.dart';
+import 'screens/about.dart';
+import 'screens/projects.dart';
+import 'screens/contact.dart';
+import 'screens/resume.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(PortfolioApp());
 }
 
-class MyApp extends StatelessWidget {
+class PortfolioApp extends StatefulWidget {
+  @override
+  State<PortfolioApp> createState() => _PortfolioAppState();
+}
+
+class _PortfolioAppState extends State<PortfolioApp> {
+  bool isDarkMode = false;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.teal,
-        body: SafeArea(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const CircleAvatar(
-              radius: 50.0,
-              backgroundImage: AssetImage('images/image.jpg'),
-            ),
-            const Text(
-              'hritik',
-              style: TextStyle(
-                fontFamily: 'Pacifico',
-                fontSize: 40.0,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+      title: 'Hritik Pankaj Portfolio',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        brightness: isDarkMode ? Brightness.dark : Brightness.light,
+        primarySwatch: Colors.teal,
+        textTheme: GoogleFonts.sourceSans3TextTheme(),
+      ),
+      home: PortfolioHome(
+        onToggleTheme: () {
+          setState(() {
+            isDarkMode = !isDarkMode;
+          });
+        },
+      ),
+    );
+  }
+}
+
+class PortfolioHome extends StatefulWidget {
+  final VoidCallback onToggleTheme;
+  const PortfolioHome({required this.onToggleTheme, Key? key}) : super(key: key);
+
+  @override
+  State<PortfolioHome> createState() => _PortfolioHomeState();
+}
+
+class _PortfolioHomeState extends State<PortfolioHome> {
+  int currentIndex = 0;
+
+  final pages = [
+    HomeSection(),
+    AboutSection(),
+    ProjectsSection(),
+    ResumeSection(),
+    ContactSection(),
+  ];
+
+  final navItems = ['Home', 'About', 'Projects', 'Resume', 'Contact'];
+
+  void onTabTapped(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Hritik Pankaj Portfolio',
+          style: GoogleFonts.pacifico(),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.brightness_medium),
+            onPressed: widget.onToggleTheme,
+            tooltip: 'Toggle Dark Mode',
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(color: Colors.teal),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Hritik Pankaj', style: GoogleFonts.pacifico(fontSize: 24, color: Colors.white)),
+                  SizedBox(height: 8),
+                  Text('Full-Stack Developer | Flutter Enthusiast', style: TextStyle(color: Colors.white70)),
+                ],
               ),
             ),
-            Text(
-              'FLUTTER DEVELOPER',
-              style: TextStyle(
-                fontFamily: 'Source Sans Pro',
-                color: Colors.teal.shade100,
-                fontSize: 20.0,
-                letterSpacing: 2.5,
-                fontWeight: FontWeight.bold,
+            for (int i = 0; i < navItems.length; i++)
+              ListTile(
+                leading: Icon(Icons.arrow_right),
+                title: Text(navItems[i]),
+                selected: currentIndex == i,
+                onTap: () {
+                  Navigator.pop(context);
+                  onTabTapped(i);
+                },
               ),
-            ),
-            SizedBox(
-              height: 20.0,
-              width: 150.0,
-              child: Divider(
-                color: Colors.teal.shade100,
-              ),
-            ),
-            Card(
-                margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-                child: ListTile(
-                  leading: const Icon(
-                    Icons.phone,
-                    color: Colors.teal,
-                  ),
-                  title: Text(
-                    '0908....nn',
-                    style: TextStyle(
-                      color: Colors.teal.shade900,
-                      fontFamily: 'Source Sans Pro',
-                      fontSize: 20.0,
-                    ),
-                  ),
-                )),
-            Card(
-                margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25.0),
-                child: ListTile(
-                  leading: const Icon(
-                    Icons.email,
-                    color: Colors.teal,
-                  ),
-                  title: Text(
-                    'hritik@email.com',
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.teal.shade900,
-                        fontFamily: 'Source Sans Pro'),
-                  ),
-                ))
           ],
-        )),
+        ),
+      ),
+      body: IndexedStack(
+        index: currentIndex,
+        children: pages,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: onTabTapped,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'About'),
+          BottomNavigationBarItem(icon: Icon(Icons.work), label: 'Projects'),
+          BottomNavigationBarItem(icon: Icon(Icons.file_copy), label: 'Resume'),
+          BottomNavigationBarItem(icon: Icon(Icons.contact_mail), label: 'Contact'),
+        ],
       ),
     );
   }
