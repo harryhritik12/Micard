@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 class AboutSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDarkMode ? Colors.white : Colors.black;
+
     return Center(
       child: Padding(
         padding: EdgeInsets.all(20),
@@ -11,7 +14,7 @@ class AboutSection extends StatelessWidget {
           children: [
             Text(
               'About Me',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: textColor),
             ),
             SizedBox(height: 10),
             Text(
@@ -27,7 +30,7 @@ class AboutSection extends StatelessWidget {
               '• Analyzed 15 real-world cases to identify ethical flaws in predictive policing.\n'
               '• Proposed data-driven solutions to enhance fairness and transparency in AI.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 18, color: textColor),
             ),
           ],
         ),

@@ -10,6 +10,9 @@ class ContactSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDarkMode ? Colors.white : Colors.black;
+
     return Center(
       child: Padding(
         padding: EdgeInsets.all(20),
@@ -18,13 +21,13 @@ class ContactSection extends StatelessWidget {
           children: [
             Text(
               'Contact Me',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: textColor),
             ),
             SizedBox(height: 10),
             Text(
               'Email: hritikpankaj1999@gmail.com\nPhone: +91 7355693274',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 18, color: textColor),
             ),
             SizedBox(height: 10),
             ElevatedButton.icon(
@@ -43,3 +46,4 @@ class ContactSection extends StatelessWidget {
     );
   }
 }
+
