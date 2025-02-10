@@ -28,10 +28,30 @@ class ContactSection extends StatelessWidget {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: textColor),
             ),
             SizedBox(height: 12),
-            Text(
-              'Email: hritikpankaj1999@gmail.com\nPhone: +91 7355693274',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18, color: textColor),
+           GestureDetector(
+              onTap: () => _launchURL('mailto:hritikpankaj1999@gmail.com'),
+              child: Text(
+                'Email: hritikpankaj1999@gmail.com',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+            SizedBox(height: 8),
+            GestureDetector(
+              onTap: () => _launchURL('tel:+917355693274'),
+              child: Text(
+                'Phone: +91 7355693274',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
             ),
             SizedBox(height: 12),
 
