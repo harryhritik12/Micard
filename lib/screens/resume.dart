@@ -3,7 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ResumeSection extends StatelessWidget {
   Future<void> _downloadResume() async {
-    final url = Uri.parse("https://drive.google.com/file/d/1hkGvq3GlfqDQLbxbFjLeU4JGx3RzSyxU/view?usp=sharing");
+    final url = Uri.parse("https://drive.google.com/file/d/19Ln8EDS7Gi7JQPm1NR_q-xaDqkGQXi0B/view?usp=sharing");
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw 'Could not open resume link';
     }
